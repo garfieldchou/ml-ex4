@@ -86,6 +86,33 @@ R = lambda / 2 * (trace(Theta1(:, 2:end)' * Theta1(:, 2:end)) + trace(Theta2(:, 
 
 J = (J + R) / m;
 
+
+% Part 2:
+
+D1 = zeros(size(Theta1));
+D2 = zeros(size(Theta2));
+
+for t = 1:m
+
+	xt = Xb(t,:)';
+
+	a2 = sigmoid(Theta1 * xt);
+
+	h = sigmoid(Theta2 * [1; a2]);
+
+	d3 = h - ym(:,t);
+
+	d2 = Theta2' * d3 .* [1; sigmoidGradient(Theta1 * xt)];
+
+	D1 = D1 + d2(2:end) * xt';
+
+	D2 = D2 + d3 * [1; a2]'; 
+
+end
+
+Theta1_grad = D1 / m;
+Theta2_grad = D2 / m;
+
 % -------------------------------------------------------------
 
 % =========================================================================
