@@ -87,18 +87,15 @@ R = lambda / 2 * (trace(Theta1(:, 2:end)' * Theta1(:, 2:end)) + trace(Theta2(:, 
 J = (J + R) / m;
 
 
-% Part 2:
-
-D1 = zeros(size(Theta1));
-D2 = zeros(size(Theta2));
+% Part 2 & Part 3:
 
 d3 = h - ym;
 
 d2 = Theta2' * d3 .* [ones(1,m); sigmoidGradient(Theta1 * Xb')];
 
-Theta1_grad = d2(2:end, :) * Xb / m;
+Theta1_grad = (d2(2:end, :) * Xb + lambda * [zeros(hidden_layer_size, 1) Theta1(:, 2:end)])/ m;
 
-Theta2_grad = d3 * [ones(1,m); a2]' / m;
+Theta2_grad = (d3 * [ones(1,m); a2]' + lambda * [zeros(num_labels, 1) Theta2(:, 2:end)]) / m;
 
 % -------------------------------------------------------------
 
