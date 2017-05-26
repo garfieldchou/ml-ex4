@@ -78,7 +78,7 @@ a2 = sigmoid(Theta1 * Xb') ;
 	
 h = sigmoid(Theta2 * [ones(1,m); a2]);
 
-J = sum(sum(-log(h) .* (ym==1) - log(1-h) .* (ym==0))) / m;
+J = trace(-log(h)' * (ym==1) - log(1-h)' * (ym==0)) / m;
 
 % -------------------------------------------------------------
 
