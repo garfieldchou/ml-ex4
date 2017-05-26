@@ -92,26 +92,13 @@ J = (J + R) / m;
 D1 = zeros(size(Theta1));
 D2 = zeros(size(Theta2));
 
-for t = 1:m
+d3 = h - ym;
 
-	xt = Xb(t,:)';
+d2 = Theta2' * d3 .* [ones(1,m); sigmoidGradient(Theta1 * Xb')];
 
-	a2 = sigmoid(Theta1 * xt);
+Theta1_grad = d2(2:end, :) * Xb / m;
 
-	h = sigmoid(Theta2 * [1; a2]);
-
-	d3 = h - ym(:,t);
-
-	d2 = Theta2' * d3 .* [1; sigmoidGradient(Theta1 * xt)];
-
-	D1 = D1 + d2(2:end) * xt';
-
-	D2 = D2 + d3 * [1; a2]'; 
-
-end
-
-Theta1_grad = D1 / m;
-Theta2_grad = D2 / m;
+Theta2_grad = d3 * [ones(1,m); a2]' / m;
 
 % -------------------------------------------------------------
 
